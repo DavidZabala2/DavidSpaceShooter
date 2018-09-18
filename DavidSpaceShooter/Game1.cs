@@ -11,7 +11,8 @@ namespace DavidSpaceShooter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Player player;
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -27,8 +28,11 @@ namespace DavidSpaceShooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
 
             base.Initialize();
+            
+
         }
 
         /// <summary>
@@ -40,6 +44,8 @@ namespace DavidSpaceShooter
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            player = new Player(Content.Load<Texture2D>("ship"), 380, 400, 2.5f, 4.5f);
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -64,7 +70,9 @@ namespace DavidSpaceShooter
 
             // TODO: Add your update logic here
 
-            base.Update(gameTime);
+            player.Update(Window);
+
+                            base.Update(gameTime);
         }
 
         /// <summary>
@@ -74,6 +82,11 @@ namespace DavidSpaceShooter
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+
+            player.Draw(spriteBatch);
+            spriteBatch.End();
+            
 
             // TODO: Add your drawing code here
 
