@@ -9,22 +9,27 @@ using System.Threading.Tasks;
 
 namespace DavidSpaceShooter
 {
-    class Player
+    class Player : PhysicalObject
     {
-        Texture2D texture;
-        Vector2 vector;
-        Vector2 speed;
 
-        public Player(Texture2D texture, float X, float Y, float speedX, float speedY)
+        List<Bullet> bullets;
+       
+        Texture2D bulletTexture;
+        double timeSinceLastBullet = 0;
+        int points = 0;
+
+        public int Points { get { return points; } set { points = value; } }
+        public List<Bullet> Bullets { get { return bullets; } }
+
+
+        public Player(Texture2D texture, float X, float Y, float speedX, float speedY, Texture2D bulletTexture)
+            : base (texture, X, Y, speedX, speedY)
         {
-            this.texture = texture;
-            this.vector.X = X;
-            this.vector.Y = Y;
-            this.speed.X = speedX;
-            this.speed.Y = speedY;
+            bullets = new List<Bullet>();
+            this.bulletTexture = bulletTexture;
         }
 
-        public void Update(GameWindow window)
+        public void Update(GameWindow window, GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -61,10 +66,44 @@ namespace DavidSpaceShooter
             {
                 vector.Y = window.ClientBounds.Height - texture.Height;
             }
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                if (gameTime.TotalGameTime.TotalMilliseconds > timeSinceLastBullet + 200)
+                {
+                    Bullet temp = new Bullet(bulletTexture, vector.X + texture.Width / 2, vector.Y);
+                    bullets.Add(temp);
+                    timeSinceLastBullet = gameTime.TotalGameTime.TotalMilliseconds;
+                }
+                foreach (Bullet b in bullets.ToList())
+                {
+                    b.Update();
+                    if (!b.IsAlive)
+                        bullets.Remove(b);
+                }
+            }
         }
-        public void Draw (SpriteBatch spriteBatch)
+  class Bullet : PhysicalObject
+        {
+            public Bullet(Texture2D texture, float X, float Y)
+                : base (texture, X, Y, 0, 3f)
+            {
+            }
+            public void Update()
+            {
+                vector.Y -= speed.Y;
+                if (vector.Y < 0)
+                    isAlive = false;
+            }
+        }
+           
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, vector, Color.White);
+            foreach (Bullet b in bullets)
+                b.Draw(spriteBatch);
         }
-    }
-}
+        }
+        }
+        
+    
+
