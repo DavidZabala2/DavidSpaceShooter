@@ -10,15 +10,22 @@ namespace DavidSpaceShooter
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    /// 
+    
+
+
+    public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player player;
-        PrintText printText;
-        List<Enemy> enemies;
-        List<GoldCoin> goldCoins;
-        Texture2D goldCoinSprite;   
+        HighScore highscore;
+        SpriteFont myFont;
+        int points = 0;
+
+        public int Points { get { return points; } set { points = value; } }
+
+        enum State { PrintHighScore, EnterHighScore };
+        State currentState;
         
         public Game1()
         {
@@ -36,8 +43,9 @@ namespace DavidSpaceShooter
         {
             // TODO: Add your initialization logic here
 
-            goldCoins = new List<GoldCoin>();
-           
+            GameElements.currentState = GameElements.State.Menu;
+            GameElements.Initialize();
+            highscore = new HighScore(10);
             base.Initialize();
             
 
@@ -51,35 +59,9 @@ namespace DavidSpaceShooter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            player = new Player(Content.Load<Texture2D>("ship"), 380, 400, 2.5f, 4.5f, Content.Load<Texture2D>("bullet"));
-            
-            printText = new PrintText(Content.Load<SpriteFont>("myFont"));
-
-            goldCoinSprite = Content.Load<Texture2D>("coin");
-
-            enemies = new List<Enemy>();
-            Random random = new Random();
-            Texture2D tmpSprite = Content.Load<Texture2D>("mine");
-            for (int i = 0; i < 5; i++)
-            {
-                int rndX = random.Next(0, Window.ClientBounds.Width - tmpSprite.Width);
-                int rndY = random.Next(0, Window.ClientBounds.Height / 2);
-
-                Mine temp = new Mine(tmpSprite, rndX, rndY);
-                enemies.Add(temp);
-            }
-
-            tmpSprite = Content.Load<Texture2D>("tripod");
-            for (int i = 0; i < 5; i++)
-            {
-                int rndX = random.Next(0, Window.ClientBounds.Width - tmpSprite.Width);
-                int rndY = random.Next(0, Window.ClientBounds.Height / 2);
-
-                Tripod temp = new Tripod(tmpSprite, rndX, rndY);
-
-                enemies.Add(temp);
-            }
+            myFont = Content.Load<SpriteFont>("myFont");
+            highscore.LoadFromFile("highscore.txt");
+            GameElements.LoadContent(Content, Window);
             
             // TODO: use this.Content to load your game content here
         }
@@ -90,9 +72,10 @@ namespace DavidSpaceShooter
         /// </summary>
         protected override void UnloadContent()
         {
+            highscore.SaveToFile("highscore.txt");
             // TODO: Unload any non ContentManager content here
         }
-
+        
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -100,60 +83,46 @@ namespace DavidSpaceShooter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+               this.Exit();
 
             // TODO: Add your update logic here
 
-            player.Update(Window, gameTime);
-            foreach (Enemy e in enemies.ToList())
+            switch (GameElements.currentState)
             {
-                foreach (Bullet b in player.Bullets)
-                {
-                    if (e.CheckCollision(b))
+                case GameElements.State.Run:
+                    GameElements.currentState = GameElements.RunUpdate(Content, Window, gameTime);
+                    
+                    
+                    break;
+                case GameElements.State.HighScore:
+                    GameElements.currentState = GameElements.HighScoreUpdate();
+                    switch (currentState)
                     {
-                        e.IsAlive = false;
-                        player.Points++;
+                        case State.EnterHighScore:
+                            if (highscore.EnterUpdate(gameTime, points))
+                                currentState = State.PrintHighScore;
+                            break;
+                        default:
+                            KeyboardState keyboardState = Keyboard.GetState();
+                            if (keyboardState.IsKeyDown(Keys.E))
+                                currentState = State.EnterHighScore;
+                            break;
                     }
-                }
-                if (e.IsAlive)
-                {
-                    if (e.CheckCollision(player))
-                        this.Exit();
-                    e.Update(Window);
-                }
-                else enemies.Remove(e);
+                    break;
+                case GameElements.State.Quit:
+                    this.Exit();
+                    break;
+                default:
+                    GameElements.currentState = GameElements.MenuUpdate(gameTime);
+                    break;
+
             }
-               
+            
 
-            Random random = new Random();
-            int newCoin = random.Next(1, 200);
-            if (newCoin == 1)
-            {
-                int rndX = random.Next(0, Window.ClientBounds.Width - goldCoinSprite.Width);
 
-                int rndY = random.Next(0, Window.ClientBounds.Height - goldCoinSprite.Height);
 
-                goldCoins.Add(new GoldCoin(goldCoinSprite, rndX, rndY, gameTime));
-            }
-
-            foreach (GoldCoin gc in goldCoins.ToList())
-            {
-                if (gc.IsAlive)
-                {
-                    gc.Update(gameTime);
-
-                    if (gc.CheckCollision(player))
-                    {
-                        goldCoins.Remove(gc);
-                        player.Points++;
-                    }
-                }
-                else
-                    goldCoins.Remove(gc);
-            }
-
-                            base.Update(gameTime);
+                    base.Update(gameTime);
         }
 
         /// <summary>
@@ -164,13 +133,35 @@ namespace DavidSpaceShooter
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            player.Draw(spriteBatch);
-            foreach (Enemy e in enemies.ToList())
-                e.Draw(spriteBatch);
-            printText.Print("Antal Fiender : " +  enemies.Count, spriteBatch , 0, 0);
-            foreach (GoldCoin gc in goldCoins)
-                gc.Draw(spriteBatch);
-            printText.Print("Points: " + player.Points, spriteBatch, 0, 20);
+            switch (GameElements.currentState)
+            {
+                case GameElements.State.Run:
+                    GameElements.RunDraw(spriteBatch);
+                   
+                    break;
+
+                case GameElements.State.HighScore:
+                    GameElements.HighScoreDraw(spriteBatch);
+                    switch (currentState)
+                    {
+                        case State.EnterHighScore:
+                            highscore.EnterDraw(spriteBatch, myFont);
+                            break;
+                        default:
+                            highscore.PrintDraw(spriteBatch, myFont);
+                            break;
+                    }
+                    break;
+                case GameElements.State.Quit:
+                    this.Exit();
+                    break;
+                default: GameElements.MenuDraw(spriteBatch);
+                    break;
+            }
+            
+
+
+
             spriteBatch.End();
             
 

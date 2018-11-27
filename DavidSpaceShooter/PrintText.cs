@@ -11,6 +11,7 @@ namespace DavidSpaceShooter
 {
     class PrintText
     {
+
         SpriteFont font;
 
         public PrintText(SpriteFont font)
@@ -21,6 +22,5 @@ namespace DavidSpaceShooter
         {
             spriteBatch.DrawString(font, text, new Vector2(X, Y), Color.White);
         }
-
     }
 }

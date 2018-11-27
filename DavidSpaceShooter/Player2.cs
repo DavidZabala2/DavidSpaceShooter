@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace DavidSpaceShooter
 {
-    class Player : PhysicalObject
+    class Player2 : PhysicalObject
     {
 
-        List<Bullet> bullets;
-       
+        List<Bullet2> bulletss;
+
         Texture2D bulletTexture;
         double timeSinceLastBullet = 0;
         int points = 0;
 
         public int Points { get { return points; } set { points = value; } }
-        public List<Bullet> Bullets { get { return bullets; } }
+        public List<Bullet2> Bulletss { get { return bulletss; } }
 
 
-        public Player(Texture2D texture, float X, float Y, float speedX, float speedY, Texture2D bulletTexture)
-            : base (texture, X, Y, speedX, speedY)
+        public Player2(Texture2D texture, float X, float Y, float speedX, float speedY, Texture2D bulletTexture)
+            : base(texture, X, Y, speedX, speedY)
         {
-            bullets = new List<Bullet>();
+            bulletss = new List<Bullet2>();
             this.bulletTexture = bulletTexture;
         }
         public void Reset(float X, float Y, float speedX, float speedY)
@@ -35,7 +35,7 @@ namespace DavidSpaceShooter
             speed.X = speedX;
             speed.Y = speedY;
 
-            bullets.Clear();
+            bulletss.Clear();
             timeSinceLastBullet = 0;
             points = 0;
             isAlive = true;
@@ -48,18 +48,18 @@ namespace DavidSpaceShooter
 
             if (vector.X <= window.ClientBounds.Width - texture.Width && vector.X >= 0)
             {
-                if (keyboardState.IsKeyDown(Keys.Right))
+                if (keyboardState.IsKeyDown(Keys.D))
                     vector.X += speed.X;
-                if (keyboardState.IsKeyDown(Keys.Left))
+                if (keyboardState.IsKeyDown(Keys.A))
                     vector.X -= speed.X;
             }
 
 
             if (vector.Y <= window.ClientBounds.Height - texture.Height && vector.Y >= 0)
             {
-                if (keyboardState.IsKeyDown(Keys.Down))
+                if (keyboardState.IsKeyDown(Keys.S))
                     vector.Y += speed.Y;
-                if (keyboardState.IsKeyDown(Keys.Up))
+                if (keyboardState.IsKeyDown(Keys.W))
                     vector.Y -= speed.Y;
             }
 
@@ -78,37 +78,37 @@ namespace DavidSpaceShooter
             {
                 vector.Y = window.ClientBounds.Height - texture.Height;
             }
-            if (keyboardState.IsKeyDown(Keys.RightShift))
+            if (keyboardState.IsKeyDown(Keys.F))
             {
                 if (gameTime.TotalGameTime.TotalMilliseconds > timeSinceLastBullet + 200)
                 {
-                    Bullet temp = new Bullet(bulletTexture, vector.X + texture.Width / 2, vector.Y);
-                    bullets.Add(temp);
+                    Bullet2 temps = new Bullet2(bulletTexture, vector.X + texture.Width / 2, vector.Y);
+                    bulletss.Add(temps);
                     timeSinceLastBullet = gameTime.TotalGameTime.TotalMilliseconds;
                 }
             }
-                foreach (Bullet b in bullets.ToList())
-                {
-                    b.Update();
-                    if (!b.IsAlive)
-                        bullets.Remove(b);
-                }
+            foreach (Bullet2 bs in bulletss.ToList())
+            {
+                bs.Update();
+                if (!bs.IsAlive)
+                    bulletss.Remove(bs);
+            }
             if (keyboardState.IsKeyDown(Keys.Escape))
                 isAlive = false;
-            }
-        
-  
-           
+        }
+
+
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, vector, Color.White);
-            foreach (Bullet b in bullets)
-                b.Draw(spriteBatch);
+            foreach (Bullet2 bs in bulletss)
+                bs.Draw(spriteBatch);
         }
-        }
-    class Bullet : PhysicalObject
+    }
+    class Bullet2 : PhysicalObject
     {
-        public Bullet(Texture2D texture, float X, float Y)
+        public Bullet2(Texture2D texture, float X, float Y)
             : base(texture, X, Y, 0, 7f)
         {
         }
@@ -120,6 +120,6 @@ namespace DavidSpaceShooter
         }
     }
 }
-        
-    
+
+
 

@@ -20,6 +20,7 @@ namespace DavidSpaceShooter
             this.vector.X = X;
             this.vector.Y = Y;
         }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, vector, Color.White);
