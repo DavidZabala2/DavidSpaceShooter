@@ -20,8 +20,9 @@ namespace DavidSpaceShooter
         static List<Enemy> enemies;
         static PrintText printText;
         static Background background;
+        static HighScore highScore;
 
-        public enum State { Menu, Run, HighScore, EnterHighScore,PrintHighScore , Quit };
+        public enum State { Menu, Run, HighScore,AddHS, Quit };
 
         public static State currentState;
         static Menu menu;
@@ -117,7 +118,7 @@ namespace DavidSpaceShooter
             {
                 
                 Reset(window, content);
-                return State.HighScore;
+                return State.AddHS;
             }
            
             
@@ -126,6 +127,7 @@ namespace DavidSpaceShooter
                 return State.Menu;
             return State.Run;
 
+            
 
         }
 
@@ -159,31 +161,12 @@ namespace DavidSpaceShooter
                 enemies.Add(temp);
 
             }
+            SpriteFont tmpFont = content.Load<SpriteFont>("myFont");
+            printText = new PrintText(tmpFont);
+            highScore = new HighScore(5, tmpFont);
+            highScore.LoadFromFile("highscore.txt");
             return;
         }
-
-
-        public static void RunDraw(SpriteBatch spriteBatch)
-        {
-            background.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            player2.Draw(spriteBatch);
-            foreach (Enemy e in enemies)
-                e.Draw(spriteBatch);
-            printText.Print("Points: " + player.Points, spriteBatch, 0, 20);
-        }
-        public static State HighScoreUpdate()
-        {
-            KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.Escape))
-                return State.Menu;
-            return State.HighScore;
-        }
-        public static void HighScoreDraw(SpriteBatch spriteBatch)
-        {
-
-        }
-
         private static void Reset(GameWindow window, ContentManager content)
         {
             player.Reset(380, 400, 2.5f, 4.5f);
@@ -208,6 +191,43 @@ namespace DavidSpaceShooter
                 enemies.Add(temp);
             }
         }
+
+        public static void RunDraw(SpriteBatch spriteBatch)
+        {
+            background.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            player2.Draw(spriteBatch);
+            foreach (Enemy e in enemies)
+                e.Draw(spriteBatch);
+            printText.Print("Points: " + player.Points, spriteBatch, 0, 20);
+        }
+        public static State AddHSUpdate(GameTime gameTime, GameWindow window, ContentManager content)
+        {
+            if (highScore.EnterUpdate(gameTime, player.Points))
+            {
+                highScore.SaveToFile("highscore.txt");
+                Reset(window, content);
+                return State.HighScore;
+            }
+            return State.AddHS;
+        }
+        public static void AddHSDraw(SpriteBatch spriteBatch)
+        {
+            highScore.EnterDraw(spriteBatch);
+        }
+        public static State HighScoreUpdate()
+        {
+            KeyboardState keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.Escape))
+                return State.Menu;
+            return State.HighScore;
+        }
+        public static void HighScoreDraw(SpriteBatch spriteBatch)
+        {
+            highScore.PrintDraw(spriteBatch);
+        }
+
+       
         
     }
 }

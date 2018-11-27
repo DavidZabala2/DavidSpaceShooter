@@ -45,7 +45,7 @@ namespace DavidSpaceShooter
 
             GameElements.currentState = GameElements.State.Menu;
             GameElements.Initialize();
-            highscore = new HighScore(10);
+            highscore = new HighScore(10,myFont);
             base.Initialize();
             
 
@@ -95,6 +95,9 @@ namespace DavidSpaceShooter
                     
                     
                     break;
+                case GameElements.State.AddHS:
+                    GameElements.currentState = GameElements.AddHSUpdate(gameTime, Window, Content);
+                    break;
                 case GameElements.State.HighScore:
                     GameElements.currentState = GameElements.HighScoreUpdate();
                     switch (currentState)
@@ -139,16 +142,19 @@ namespace DavidSpaceShooter
                     GameElements.RunDraw(spriteBatch);
                    
                     break;
+                case GameElements.State.AddHS:
+                    GameElements.AddHSDraw(spriteBatch);
+                    break;
 
                 case GameElements.State.HighScore:
                     GameElements.HighScoreDraw(spriteBatch);
                     switch (currentState)
                     {
                         case State.EnterHighScore:
-                            highscore.EnterDraw(spriteBatch, myFont);
+                            highscore.EnterDraw(spriteBatch);
                             break;
                         default:
-                            highscore.PrintDraw(spriteBatch, myFont);
+                            highscore.PrintDraw(spriteBatch);
                             break;
                     }
                     break;
