@@ -40,7 +40,7 @@ class HSItem
 class HighScore
 {
     SpriteFont font;
-    int maxInList = 5; // Hur många som får vara i listan
+    int maxInList = 10; // Hur många som får vara i listan
     List<HSItem> highscore = new List<HSItem>();
     string name; // Spelarens namn
 
@@ -145,7 +145,7 @@ class HighScore
     // PrintDraw(), metod för att skriva ut listan. Det finns ingen
     // PrintUpdate() då det är en helt statisk text som skrivs ut.
     // =======================================================================
-    public void PrintDraw(SpriteBatch spriteBatch/*, SpriteFont myFont*/)
+    public void PrintDraw(SpriteBatch spriteBatch/*, SpriteFont font*/)
     {
         string text = "HIGHSCORE\n";
         foreach (HSItem h in highscore)
@@ -210,7 +210,7 @@ class HighScore
     // EnterDraw(), skriver ut de tecken spelaren har matat in av sitt namn
     // (om något) samt det tecken (av tre) som just nu är valt.
     // =======================================================================
-    public void EnterDraw(SpriteBatch spriteBatch/*, SpriteFont myFont*/)
+    public void EnterDraw(SpriteBatch spriteBatch/*, SpriteFont font*/)
     {
         string text = "ENTER NAME:" + name + currentChar;
         spriteBatch.DrawString(font, text, Vector2.Zero, Color.White);
