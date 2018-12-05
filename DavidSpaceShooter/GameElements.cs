@@ -19,6 +19,8 @@ namespace DavidSpaceShooter
         static Player2 player2;
         static List<Enemy> enemies;
         static PrintText printText;
+        static List<GoldCoin> goldCoins;
+        static Texture2D goldCoinSprite;
         static Background background;
         static HighScore highScore;
 
@@ -29,7 +31,7 @@ namespace DavidSpaceShooter
 
         public static void Initialize()
         {
-            
+            goldCoins = new List<GoldCoin>();
         }
 
        
@@ -45,6 +47,8 @@ namespace DavidSpaceShooter
 
             player = new Player(content.Load<Texture2D>("Sanic"), 380, 400, 2.5f, 4.5f, content.Load<Texture2D>("shot"));
             player2 = new Player2(content.Load<Texture2D>("Sanic2"), 580, 600, 2.5f, 4.5f, content.Load<Texture2D>("bullet"));
+            goldCoinSprite = content.Load<Texture2D>("coin");
+
 
             GenerateEnemies(content, window);
 
@@ -72,6 +76,30 @@ namespace DavidSpaceShooter
             {
                 GenerateEnemies(content, window);
 
+            }
+            Random random = new Random();
+            int newCoin = random.Next(1, 200);
+            if (newCoin == 1)
+            {
+                int rndX = random.Next(0, window.ClientBounds.Width - goldCoinSprite.Width);
+                int rndY = random.Next(0, window.ClientBounds.Height - goldCoinSprite.Height);
+                goldCoins.Add(new GoldCoin(goldCoinSprite, rndX, rndY, gameTime));
+            }
+
+            foreach (GoldCoin gc in goldCoins.ToList())
+            {
+                if (gc.IsAlive)
+                {
+                    gc.Update(gameTime);
+                    if (gc.CheckCollision(player) || gc.CheckCollision(player2))
+                    {
+                        goldCoins.Remove(gc);
+                        player.Points++;
+                        player2.Points++;
+                    }
+                }
+                else
+                    goldCoins.Remove(gc);
             }
 
             foreach (Enemy e in enemies.ToList())
@@ -197,6 +225,8 @@ namespace DavidSpaceShooter
             background.Draw(spriteBatch);
             player.Draw(spriteBatch);
             player2.Draw(spriteBatch);
+            foreach (GoldCoin gc in goldCoins)
+                gc.Draw(spriteBatch);
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
             printText.Print("Points: " + player.Points, spriteBatch, 0, 20);
