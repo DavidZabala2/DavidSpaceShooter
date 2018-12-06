@@ -25,6 +25,7 @@ namespace DavidSpaceShooter
         {
             spriteBatch.Draw(texture, vector, Color.White);
         }
+
         public float X { get { return vector.X; } }
         public float Y { get { return vector.Y; } }
         public float Width { get { return texture.Width; } }
@@ -41,6 +42,7 @@ namespace DavidSpaceShooter
                 this.speed.Y = speedY;
             }
         }
+
     abstract class PhysicalObject : MovingObject
     {
         protected bool isAlive = true;

@@ -144,8 +144,8 @@ namespace DavidSpaceShooter
 
             if (!player.IsAlive || !player2.IsAlive)
             {
-                
-                Reset(window, content);
+
+                //TL Du anropar denna i AddHSUpdate()               Reset(window, content);
                 return State.AddHS;
             }
            

@@ -20,9 +20,9 @@ namespace DavidSpaceShooter
         SpriteBatch spriteBatch;
         HighScore highscore;
         SpriteFont myFont;
-        int points = 0;
+        //TL int points = 0;
 
-        public int Points { get { return points; } set { points = value; } }
+        //TL public int Points { get { return points; } set { points = value; } }
 
         enum State { PrintHighScore, EnterHighScore };
         State currentState;
@@ -45,7 +45,6 @@ namespace DavidSpaceShooter
 
             GameElements.currentState = GameElements.State.Menu;
             GameElements.Initialize();
-            highscore = new HighScore(10,myFont);
             base.Initialize();
             
 
@@ -60,6 +59,7 @@ namespace DavidSpaceShooter
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             myFont = Content.Load<SpriteFont>("myFont");
+            highscore = new HighScore(10, myFont);
             highscore.LoadFromFile("highscore.txt");
             GameElements.LoadContent(Content, Window);
             
@@ -100,10 +100,11 @@ namespace DavidSpaceShooter
                     break;
                 case GameElements.State.HighScore:
                     GameElements.currentState = GameElements.HighScoreUpdate();
+                    /*//TL
                     switch (currentState)
                     {
                         case State.EnterHighScore:
-                            if (highscore.EnterUpdate(gameTime, points))
+//TL Den här if-satsen finns redan i GameElements.AddHSUpdate()      if (highscore.EnterUpdate(gameTime, player.points))
                                 currentState = State.PrintHighScore;
                             break;
                         default:
@@ -111,7 +112,7 @@ namespace DavidSpaceShooter
                             if (keyboardState.IsKeyDown(Keys.E))
                                 currentState = State.EnterHighScore;
                             break;
-                    }
+                    }*/
                     break;
                 case GameElements.State.Quit:
                     this.Exit();
