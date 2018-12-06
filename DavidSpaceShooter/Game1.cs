@@ -72,7 +72,7 @@ namespace DavidSpaceShooter
         /// </summary>
         protected override void UnloadContent()
         {
-            highscore.SaveToFile("highscore.txt");
+            /* highscore.SaveToFile("highscore.txt"); */
             // TODO: Unload any non ContentManager content here
         }
         

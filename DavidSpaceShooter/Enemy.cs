@@ -20,7 +20,7 @@ namespace DavidSpaceShooter
     class Mine : Enemy
     {
         public Mine(Texture2D texture, float X, float Y)
-            : base(texture, X, Y, 0.5f, 0.1f)
+            : base(texture, X, Y, 0.9f, 0.9f)
         {
         }
         public override void Update(GameWindow window)
