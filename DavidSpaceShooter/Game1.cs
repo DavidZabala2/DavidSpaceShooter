@@ -11,9 +11,6 @@ namespace DavidSpaceShooter
     /// This is the main type for your game.
     /// </summary>
     /// 
-    
-
-
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -21,7 +18,6 @@ namespace DavidSpaceShooter
         HighScore highscore;
         SpriteFont myFont;
         //TL int points = 0;
-
         //TL public int Points { get { return points; } set { points = value; } }
 
         enum State { PrintHighScore, EnterHighScore };
@@ -46,8 +42,6 @@ namespace DavidSpaceShooter
             GameElements.currentState = GameElements.State.Menu;
             GameElements.Initialize();
             base.Initialize();
-            
-
         }
 
         /// <summary>
@@ -92,8 +86,6 @@ namespace DavidSpaceShooter
             {
                 case GameElements.State.Run:
                     GameElements.currentState = GameElements.RunUpdate(Content, Window, gameTime);
-                    
-                    
                     break;
                 case GameElements.State.AddHS:
                     GameElements.currentState = GameElements.AddHSUpdate(gameTime, Window, Content);
@@ -122,10 +114,6 @@ namespace DavidSpaceShooter
                     break;
 
             }
-            
-
-
-
                     base.Update(gameTime);
         }
 
@@ -154,9 +142,7 @@ namespace DavidSpaceShooter
                         case State.EnterHighScore:
                             highscore.EnterDraw(spriteBatch);
                             break;
-                        default:
-                            highscore.PrintDraw(spriteBatch);
-                            break;
+                     
                     }
                     break;
                 case GameElements.State.Quit:
@@ -165,15 +151,8 @@ namespace DavidSpaceShooter
                 default: GameElements.MenuDraw(spriteBatch);
                     break;
             }
-            
-
-
-
             spriteBatch.End();
-            
-
             // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
     }
