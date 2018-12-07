@@ -142,7 +142,6 @@ namespace DavidSpaceShooter
                         case State.EnterHighScore:
                             highscore.EnterDraw(spriteBatch);
                             break;
-                     
                     }
                     break;
                 case GameElements.State.Quit:
