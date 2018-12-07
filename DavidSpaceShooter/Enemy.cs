@@ -10,7 +10,7 @@ namespace DavidSpaceShooter
 {
     abstract class Enemy : PhysicalObject
     {
-        public Enemy(Texture2D texture, float X, float Y, float speedX, float speedY) //Detta är en konstruktor
+        public Enemy(Texture2D texture, float X, float Y, float speedX, float speedY)
             : base(texture, X, Y, speedX, speedY)
         {
         }
