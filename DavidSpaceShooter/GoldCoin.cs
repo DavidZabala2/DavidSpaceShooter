@@ -11,10 +11,11 @@ namespace DavidSpaceShooter
 {
     class GoldCoin : PhysicalObject
     {
+        
 
+        double timeToDie; //Hur länge lever myntet kvar
 
-        double timeToDie;
-
+        //Konstruktor för att skapa objektet
         public GoldCoin(Texture2D texture, float X, float Y, GameTime gameTime)
             : base(texture, X, Y, 0, 2f)
         {
@@ -22,6 +23,7 @@ namespace DavidSpaceShooter
         }
         public void Update(GameTime gameTime)
         {
+            //Ta bort myntet om det är för gammalt.
             if (timeToDie < gameTime.TotalGameTime.TotalMilliseconds)
                 isAlive = false;
         }
