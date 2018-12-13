@@ -159,7 +159,7 @@ namespace DavidSpaceShooter
             return State.Run; //Stanna kvar i Run = Spelet
 
             
-
+             
         }
 
         public static void GenerateEnemies(ContentManager content, GameWindow window)
