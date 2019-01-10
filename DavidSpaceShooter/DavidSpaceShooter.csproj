@@ -51,7 +51,6 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Player2.cs" />
-    <Compile Include="PowerUp.cs" />
     <Compile Include="PrintText.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
