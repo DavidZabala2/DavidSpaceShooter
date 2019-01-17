@@ -80,7 +80,7 @@ namespace DavidSpaceShooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                this.Exit();
 
-            // TODO: Add your update logic here
+           
 
             switch (GameElements.currentState)
             {
@@ -117,15 +117,12 @@ namespace DavidSpaceShooter
                     base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+      
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            switch (GameElements.currentState)
+            switch (GameElements.currentState) //DE OLIKA LÄGEN I SPELET, Ritas ut - DAVID
             {
                 case GameElements.State.Run:
                     GameElements.RunDraw(spriteBatch);
@@ -151,7 +148,7 @@ namespace DavidSpaceShooter
                     break;
             }
             spriteBatch.End();
-            // TODO: Add your drawing code here
+            
             base.Draw(gameTime);
         }
     }

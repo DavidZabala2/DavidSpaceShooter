@@ -24,7 +24,7 @@ namespace DavidSpaceShooter
         static Background background;
         static HighScore highScore;
 
-        /* Olika gamestates */
+        /* Olika gamestates  David -*/
         public enum State { Menu, Run, HighScore,AddHS, Quit };
 
         public static State currentState;
@@ -37,7 +37,7 @@ namespace DavidSpaceShooter
 
        
 
-        public static void LoadContent(ContentManager content, GameWindow window) /* Laddar all content */
+        public static void LoadContent(ContentManager content, GameWindow window) /* Laddar all content - David */
         {
             menu = new Menu((int)State.Menu);
             menu.AddItem(content.Load<Texture2D>("start"), (int)State.Run);
@@ -58,7 +58,7 @@ namespace DavidSpaceShooter
             
 
         }
-        public static State MenuUpdate(GameTime gameTime) /* Uppdatera Menyn och metoden under är för att rita ut backgrounden och meny */
+        public static State MenuUpdate(GameTime gameTime) /* Uppdatera Menyn och metoden under är för att rita ut backgrounden och meny - David */
         {
             return (State)menu.Update(gameTime);
         }
@@ -67,21 +67,21 @@ namespace DavidSpaceShooter
             background.Draw(spriteBatch);
             menu.Draw(spriteBatch);
         }
-        public static State RunUpdate(ContentManager content, GameWindow window, GameTime gameTime) /* Uppdaterar allt medans man kör allt */
+        public static State RunUpdate(ContentManager content, GameWindow window, GameTime gameTime) /* Uppdaterar allt medans man kör allt - David */
         {
             
             background.Update(window);
             player.Update(window, gameTime);
             player2.Update(window, gameTime);
-            if (enemies.Count == 0) /* Om det inte finns några fiender så ska det komma flera */
+            if (enemies.Count == 0) /* Om det inte finns några fiender så ska det komma flera - David*/
             {
                 GenerateEnemies(content, window);
 
             }
             Random random = new Random(); /*  Slumpad position och slumpad coin. */
-            int newCoin = random.Next(1, 200); //en chans på 200
+            int newCoin = random.Next(1, 200); //en chans på 200 - Fredrik
             if (newCoin == 1)
-            { //Var ska guldmyntet uppstå
+            { //Var ska guldmyntet uppstå - Fredrik
                 int rndX = random.Next(0, window.ClientBounds.Width - goldCoinSprite.Width);
                 int rndY = random.Next(0, window.ClientBounds.Height - goldCoinSprite.Height);
                 //Lägg till myntet i listan
@@ -90,7 +90,7 @@ namespace DavidSpaceShooter
 
             foreach (GoldCoin gc in goldCoins.ToList()) /*För varje goldcoin I listan så ska det kollas om coin lever och deras kollision med spelare sedan om kollision sker med spelare så ska det läggas till en poäng*/
             {
-                if (gc.IsAlive) //Kontrollera om guldmyntet lever
+                if (gc.IsAlive) //Kontrollera om guldmyntet lever - David
                 {
                     gc.Update(gameTime); //gc.Update() kollar om guldmyntet ar blivit för gammalt för att få leva vidare.
                     if (gc.CheckCollision(player) || gc.CheckCollision(player2)) //Kolliderar coin med spelare
@@ -115,7 +115,7 @@ namespace DavidSpaceShooter
                         player.Points++; //Ge spelaren poäng
                     }
                 }
-                if (e.IsAlive) //Kontrollera om fienden lever
+                if (e.IsAlive) //Kontrollera om fienden lever - David
                 {
                     if (e.CheckCollision(player)) //Kontrollera kollision med spelaren
                         player.IsAlive = false;
@@ -164,7 +164,7 @@ namespace DavidSpaceShooter
 
         public static void GenerateEnemies(ContentManager content, GameWindow window)
         {
-            //Skapa fiender och hur många
+            //Skapa fiender och hur många - Fredrik
             enemies = new List<Enemy>();
             Random random = new Random();
             Texture2D tmpSprite = content.Load<Texture2D>("mine");
@@ -228,7 +228,7 @@ namespace DavidSpaceShooter
 
         public static void RunDraw(SpriteBatch spriteBatch)
         {
-            background.Draw(spriteBatch); //Ritar ut allt
+            background.Draw(spriteBatch); //Ritar ut allt - David
             player.Draw(spriteBatch);
             player2.Draw(spriteBatch);
             foreach (GoldCoin gc in goldCoins) //Varje coin i listan ska ritas ut.

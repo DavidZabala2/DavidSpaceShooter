@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 namespace DavidSpaceShooter
 {
     //GameObject, En basklass för att kunna skapa olika spelobjekt. Klassen innehåller 
-    // ett spelobjektens bild och position
+    // ett spelobjektens bild och position - Fredrik
     class GameObject
     {
         protected Texture2D texture; // Spelare 1 och 2 textur
@@ -47,7 +47,7 @@ namespace DavidSpaceShooter
                 this.speed.Y = speedY;
             }
         }
-    //PhysicalObject, är en klass som kolliderar med andra objekt 
+    //PhysicalObject, är en klass som kolliderar med andra objekt  - Fredrik
     abstract class PhysicalObject : MovingObject
     {
         protected bool isAlive = true;
@@ -56,7 +56,7 @@ namespace DavidSpaceShooter
             : base (texture, X, Y, speedX, speedY)
         {
         }
-        //CheckCollision(), kontrollerar om detta objekt kommer i kolision med något annat
+        //CheckCollision(), kontrollerar om detta objekt kommer i kolision med något annat (använder sig av rektanglar) - David
         public bool CheckCollision(PhysicalObject other)
         {
             Rectangle myRect = new Rectangle(Convert.ToInt32(X), Convert.ToInt32(Y), Convert.ToInt32(Width), Convert.ToInt32(Height));
