@@ -24,7 +24,7 @@ namespace DavidSpaceShooter
         public int Points { get { return points; } set { points = value; } }
         public List<Bullet> Bullets { get { return bullets; } }
 
-        //Detta är Player() Konstruktorn för att skapa spelar-objekt 
+        //Detta är Player() Konstruktorn för att skapa spelar-objekt. 
         public Player(Texture2D texture, float X, float Y, float speedX, float speedY, Texture2D bulletTexture)
             : base (texture, X, Y, speedX, speedY)
         {
