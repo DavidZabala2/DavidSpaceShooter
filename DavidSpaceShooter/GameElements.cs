@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 
 namespace DavidSpaceShooter
@@ -195,7 +197,7 @@ namespace DavidSpaceShooter
             SpriteFont tmpFont = content.Load<SpriteFont>("myFont");
             printText = new PrintText(tmpFont);
             highScore = new HighScore(5, tmpFont);
-            highScore.LoadFromFile("highscore.txt");
+            highScore.LoadFromDB();
             return;
         }
         private static void Reset(GameWindow window, ContentManager content)
@@ -228,7 +230,7 @@ namespace DavidSpaceShooter
 
         public static void RunDraw(SpriteBatch spriteBatch)
         {
-            background.Draw(spriteBatch); //Ritar ut allt - David
+            background.Draw(spriteBatch); //Ritar ut bakgrunden - David
             player.Draw(spriteBatch);
             player2.Draw(spriteBatch);
             foreach (GoldCoin gc in goldCoins) //Varje coin i listan ska ritas ut.
@@ -239,9 +241,11 @@ namespace DavidSpaceShooter
         }
         public static State AddHSUpdate(GameTime gameTime, GameWindow window, ContentManager content)
         {
+           
+
             if (highScore.EnterUpdate(gameTime, player.Points))
             {
-                highScore.SaveToFile("highscore.txt");
+                highScore.SaveToDB();
                 Reset(window, content);
                 return State.HighScore;
             }
@@ -251,8 +255,9 @@ namespace DavidSpaceShooter
         {
             highScore.EnterDraw(spriteBatch);
         }
-        public static State HighScoreUpdate()
+        public static State HighScoreUpdate(GameWindow window)
         {
+            background.Update(window);
             KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.Escape))
                 return State.Menu;
@@ -260,6 +265,7 @@ namespace DavidSpaceShooter
         }
         public static void HighScoreDraw(SpriteBatch spriteBatch)
         {
+
             highScore.PrintDraw(spriteBatch);
         }
 

@@ -91,7 +91,7 @@ namespace DavidSpaceShooter
                     GameElements.currentState = GameElements.AddHSUpdate(gameTime, Window, Content);
                     break;
                 case GameElements.State.HighScore:
-                    GameElements.currentState = GameElements.HighScoreUpdate();
+                    GameElements.currentState = GameElements.HighScoreUpdate(Window);
                     /*//TL
                     switch (currentState)
                     {
@@ -136,6 +136,7 @@ namespace DavidSpaceShooter
                     GameElements.HighScoreDraw(spriteBatch);
                     switch (currentState)
                     {
+
                         case State.EnterHighScore:
                             highscore.EnterDraw(spriteBatch);
                             break;

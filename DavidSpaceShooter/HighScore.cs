@@ -5,6 +5,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 // =======================================================================
 // HsItem, en behållare-klass som innehåller info om en person i
@@ -14,7 +16,7 @@ class HSItem
 {
     // Variabler och egenskaper för dem:
     string name;
-    int points;
+    public int points;
 
     public string Name { get { return name; } set { name = value; } }
 
@@ -198,10 +200,16 @@ class HighScore
         }
         // Lagra det tecken som nu är valt, så att vi kan skriva ut det i
         // EnterDraw():
+
+
+
+
         currentChar = key[key_index].ToString();
-        // Ange att vi inte är klara, fortsätt anropa denna metod via Update():
+        // Ange att vi inte är klara, fortsätt anropa denna metod via Update(): 
         return false;
     }
+
+
 
     // =======================================================================
     // EnterDraw(), skriver ut de tecken spelaren har matat in av sitt namn
@@ -217,6 +225,7 @@ class HighScore
     // =======================================================================
     public void SaveToFile(string filename)
     {
+
         StreamWriter sw = new StreamWriter(filename);
         foreach (HSItem item in highscore)
         {
@@ -226,6 +235,39 @@ class HighScore
         sw.Close();
     }
 
+    // =======================================================================
+    // SaveToFile(), spara till fil.
+    // =======================================================================
+    public void SaveToDB()
+    {
+        string connStr = "server=185.189.48.15; user=prg_user; database=prg_db; port=3306; password=wCoLyemcmI";
+        MySqlConnection conn = new MySqlConnection(connStr);
+
+        try
+        {
+
+            conn.Open();
+            string strGame = "t-space";
+
+            foreach (HSItem item in highscore)
+            {
+                string sql = "INSERT INTO scores (name, score,game) VALUES ('" + item.Name + "','" + item.Points + "','" + strGame + "')";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+
+            }
+            
+
+           
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+        conn.Close();
+
+
+    }
     // =======================================================================
     // LoadFromFile(), ladda från fil.
     // =======================================================================
@@ -241,5 +283,32 @@ class HighScore
             highscore.Add(temp);
         }
         sr.Close();
+    }
+
+    public void LoadFromDB()
+    {
+        string connStr = "server=185.189.48.15; user=prg_user; database=prg_db; port=3306; password=wCoLyemcmI";
+        MySqlConnection conn = new MySqlConnection(connStr);
+
+        try
+        {
+            conn.Open();
+
+            string sql = "SELECT name, score FROM scores WHERE game='t-space'";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Console.WriteLine(rdr[0] + "--" + rdr[1]);
+            }
+            rdr.Close();
+        }
+
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+        conn.Close();
     }
 }
