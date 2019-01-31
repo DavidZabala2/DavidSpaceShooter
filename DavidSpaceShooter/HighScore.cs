@@ -285,6 +285,7 @@ class HighScore
         sr.Close();
     }
 
+
     public void LoadFromDB()
     {
         string connStr = "server=185.189.48.15; user=prg_user; database=prg_db; port=3306; password=wCoLyemcmI";
