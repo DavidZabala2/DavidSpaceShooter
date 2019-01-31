@@ -164,17 +164,12 @@
 /processorParam:TextureFormat=Color
 /build:shot.png
 
-#begin Sanic.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
+#begin font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sanic.png
+/processorParam:TextureFormat=Compressed
+/build:font.spritefont
 
 #begin Sanic2.png
 /importer:TextureImporter
@@ -188,10 +183,15 @@
 /processorParam:TextureFormat=Color
 /build:Sanic2.png
 
-#begin font.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+#begin Sanic.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:font.spritefont
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sanic.png
 
