@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace DavidSpaceShooter
 {
+    //TL-190202 Se kommentar i ert klassdiagram.
+
     //Player2, klass för att skapa ett spelarobjekt. Klassen ska
     //hantera spelerans rörelse(sprite), de ska däremot ta in
     //tangentintryckningar för att förändra spelarens direktion

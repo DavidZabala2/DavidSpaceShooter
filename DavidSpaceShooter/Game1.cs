@@ -17,6 +17,7 @@ namespace DavidSpaceShooter
         SpriteBatch spriteBatch;
         HighScore highscore;
         SpriteFont myFont;
+        //TL-190202 Ta bort mina tidigare kommentarer.
         //TL int points = 0;
         //TL public int Points { get { return points; } set { points = value; } }
 

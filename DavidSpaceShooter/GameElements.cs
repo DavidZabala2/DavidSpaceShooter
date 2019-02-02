@@ -52,14 +52,11 @@ namespace DavidSpaceShooter
             player2 = new Player2(content.Load<Texture2D>("Sanic2"), 580, 600, 2.5f, 4.5f, content.Load<Texture2D>("bullet"));
             goldCoinSprite = content.Load<Texture2D>("coin");
 
-
             GenerateEnemies(content, window);
 
             printText = new PrintText(content.Load<SpriteFont>("myFont"));
-
-            
-
         }
+
         public static State MenuUpdate(GameTime gameTime) /* Uppdatera Menyn och metoden under är för att rita ut backgrounden och meny - David */
         {
             return (State)menu.Update(gameTime);
@@ -71,14 +68,12 @@ namespace DavidSpaceShooter
         }
         public static State RunUpdate(ContentManager content, GameWindow window, GameTime gameTime) /* Uppdaterar allt medans man kör allt - David */
         {
-            
             background.Update(window);
             player.Update(window, gameTime);
             player2.Update(window, gameTime);
             if (enemies.Count == 0) /* Om det inte finns några fiender så ska det komma flera - David*/
             {
                 GenerateEnemies(content, window);
-
             }
             Random random = new Random(); /*  Slumpad position och slumpad coin. */
             int newCoin = random.Next(1, 200); //en chans på 200 - Fredrik
@@ -197,7 +192,7 @@ namespace DavidSpaceShooter
             SpriteFont tmpFont = content.Load<SpriteFont>("myFont");
             printText = new PrintText(tmpFont);
             highScore = new HighScore(5, tmpFont);
-            highScore.LoadFromDB();
+            highScore.LoadFromDB(); //TL-190202 Visserligen gör ni detta anrop, men det verkar som att det är filanropet som gäller. Sök på LoadFromFile så hittar ni det.
             return;
         }
         private static void Reset(GameWindow window, ContentManager content)

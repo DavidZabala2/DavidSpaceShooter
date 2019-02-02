@@ -247,7 +247,7 @@ class HighScore
         {
 
             conn.Open();
-            string strGame = "t-space";
+            string strGame = "t-space"; //TL-190202 Byt ut det här namnet så att det blir specifikt för er egen lösning.
 
             foreach (HSItem item in highscore)
             {
@@ -295,13 +295,13 @@ class HighScore
         {
             conn.Open();
 
-            string sql = "SELECT name, score FROM scores WHERE game='t-space'";
+            string sql = "SELECT name, score FROM scores WHERE game='t-space'"; //TL-190202 Byt ut det här namnet så att det blir specifikt för er egen lösning.
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                Console.WriteLine(rdr[0] + "--" + rdr[1]);
+                Console.WriteLine(rdr[0] + "--" + rdr[1]); //TL-190202 Denna rad måste ni ändra på för era behov!
             }
             rdr.Close();
         }
