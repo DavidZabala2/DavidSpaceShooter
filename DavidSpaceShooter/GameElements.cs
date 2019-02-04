@@ -25,6 +25,7 @@ namespace DavidSpaceShooter
         static Texture2D goldCoinSprite;
         static Background background;
         static HighScore highScore;
+        
 
         /* Olika gamestates  David -*/
         public enum State { Menu, Run, HighScore,AddHS, Quit };
@@ -55,6 +56,7 @@ namespace DavidSpaceShooter
             GenerateEnemies(content, window);
 
             printText = new PrintText(content.Load<SpriteFont>("myFont"));
+            
         }
 
         public static State MenuUpdate(GameTime gameTime) /* Uppdatera Menyn och metoden under är för att rita ut backgrounden och meny - David */
@@ -190,9 +192,11 @@ namespace DavidSpaceShooter
 
             }
             SpriteFont tmpFont = content.Load<SpriteFont>("myFont");
+           
             printText = new PrintText(tmpFont);
             highScore = new HighScore(5, tmpFont);
-            highScore.LoadFromDB(); //TL-190202 Visserligen gör ni detta anrop, men det verkar som att det är filanropet som gäller. Sök på LoadFromFile så hittar ni det.
+              highScore.LoadFromDB(); 
+            highScore.LoadFromFile("highscore.txt"); 
             return;
         }
         private static void Reset(GameWindow window, ContentManager content)
@@ -240,6 +244,7 @@ namespace DavidSpaceShooter
 
             if (highScore.EnterUpdate(gameTime, player.Points))
             {
+                highScore.SaveToFile("highscore.txt"); 
                 highScore.SaveToDB();
                 Reset(window, content);
                 return State.HighScore;
