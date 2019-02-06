@@ -42,9 +42,9 @@ namespace DavidSpaceShooter
     class HighScore
     {
         SpriteFont font;
-        PrintText printText;
+        
 
-        int maxInList = 10; // Hur många som får vara i listan
+        int maxInList = 5; // Hur många som får vara i listan
         List<HSItem> highscore = new List<HSItem>();
         string name; // Spelarens namn
 
@@ -302,14 +302,17 @@ namespace DavidSpaceShooter
             {
                 conn.Open();
 
-                string sql = "SELECT name, score FROM scores WHERE game='DavidSpaceShooter'"; //TL-190202 Byt ut det här namnet så att det blir specifikt för er egen lösning.
+                string sql = "SELECT name, score FROM scores WHERE game='DavidSpaceShooter'";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader rdr = cmd.ExecuteReader();
-
+                
+                 
                 while (rdr.Read())
                 {
-                    Console.WriteLine(rdr[0] + "-- " + rdr[1]);
-                   
+                    HSItem temp = new HSItem(rdr[0].ToString(), int.Parse(rdr[1].ToString()));
+                    int points = int.Parse(rdr[1].ToString());
+                    highscore.Add(temp);
+
                 }
                 rdr.Close();
             }

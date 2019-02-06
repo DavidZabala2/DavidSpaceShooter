@@ -196,7 +196,7 @@ namespace DavidSpaceShooter
             printText = new PrintText(tmpFont);
             highScore = new HighScore(5, tmpFont);
               highScore.LoadFromDB(); 
-            highScore.LoadFromFile("highscore.txt"); 
+          /*  highScore.LoadFromFile("highscore.txt"); */
             return;
         }
         private static void Reset(GameWindow window, ContentManager content)
