@@ -302,7 +302,7 @@ namespace DavidSpaceShooter
             {
                 conn.Open();
 
-                string sql = "SELECT name, score FROM scores WHERE game='DavidSpaceShooter' ORDER BY score DESC LIMIT 0,5";
+                string sql = "SELECT name, score FROM scores WHERE game='DavidSpaceShooter' ORDER BY score DESC LIMIT 0,2";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 
