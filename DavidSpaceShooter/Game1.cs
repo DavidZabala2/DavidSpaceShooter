@@ -54,7 +54,7 @@ namespace DavidSpaceShooter
             myFont = Content.Load<SpriteFont>("myFont");
             highscore = new HighScore(5, myFont);
             /* highscore.LoadFromFile("highscore.txt"); */
-            highscore.LoadFromDB();
+         
             GameElements.LoadContent(Content, Window);
             
             // TODO: use this.Content to load your game content here

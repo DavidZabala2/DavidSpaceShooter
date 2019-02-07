@@ -193,10 +193,11 @@ namespace DavidSpaceShooter
             }
             SpriteFont tmpFont = content.Load<SpriteFont>("myFont");
            
+            
             printText = new PrintText(tmpFont);
             highScore = new HighScore(5, tmpFont);
               highScore.LoadFromDB(); 
-          /*  highScore.LoadFromFile("highscore.txt"); */
+            /*  highScore.LoadFromFile("highscore.txt"); */
             return;
         }
         private static void Reset(GameWindow window, ContentManager content)
@@ -245,7 +246,7 @@ namespace DavidSpaceShooter
             if (highScore.EnterUpdate(gameTime, player.Points))
             {
                 /* highScore.SaveToFile("highscore.txt"); */
-                highScore.SaveToDB();
+               /* highScore.SaveToDB();*/
                 Reset(window, content);
                 return State.HighScore;
             }

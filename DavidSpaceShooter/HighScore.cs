@@ -98,10 +98,13 @@ namespace DavidSpaceShooter
         {
             // Skapa en temporär variabel av typen HSItem:
             HSItem temp = new HSItem(name, points);
+            //Spara i DB
+            SaveToDB(temp);
             // Lägg till tmp i listan. Observera att följande Add()
             // tillhör klassen List (är alltså skapad av Microsoft).
             // Metoden har endast samma namn, som just denna Add():
             highscore.Add(temp);
+
             Sort(); // Sortera listan efter att vi har lagt till en person!
 
             // Är det för många i listan?
@@ -243,7 +246,7 @@ namespace DavidSpaceShooter
         // =======================================================================
         // SaveToFile(), spara till fil.
         // =======================================================================
-        public void SaveToDB()
+        public void SaveToDB(HSItem item)
         {
             string connStr = "server=185.189.48.15; user=prg_user; database=prg_db; port=3306; password=wCoLyemcmI";
             MySqlConnection conn = new MySqlConnection(connStr);
@@ -252,16 +255,14 @@ namespace DavidSpaceShooter
             {
 
                 conn.Open();
-                string strGame = "DavidSpaceShooter"; //TL-190202 Byt ut det här namnet så att det blir specifikt för er egen lösning.
+                string strGame = "Tom"; //TL-190202 Byt ut det här namnet så att det blir specifikt för er egen lösning.
 
-                foreach (HSItem item in highscore)
-                {
-                    string sql = "INSERT INTO scores (name, score,game) VALUES ('" + item.Name + "','" + item.Points + "','" + strGame + "')";
-                    MySqlCommand cmd = new MySqlCommand(sql, conn);
-                    cmd.ExecuteNonQuery();
+                string sql = "INSERT INTO scores (name, score,game) VALUES ('" + item.Name + "','" + item.Points + "','" + strGame + "')";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
 
-                }
 
+                
 
 
             }
@@ -269,8 +270,7 @@ namespace DavidSpaceShooter
             {
                 Console.WriteLine(ex.ToString());
             }
-            conn.Close();
-
+            
 
         }
         // =======================================================================
@@ -302,15 +302,15 @@ namespace DavidSpaceShooter
             {
                 conn.Open();
 
-                string sql = "SELECT name, score FROM scores WHERE game='DavidSpaceShooter' ORDER BY score DESC LIMIT 0,2";
+                string sql = "SELECT name, score FROM scores WHERE game='Tom' ORDER BY score DESC LIMIT 0,5";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 
                  
                 while (rdr.Read())
                 {
-                    HSItem temp = new HSItem(rdr[0].ToString(), int.Parse(rdr[1].ToString()));
                     int points = int.Parse(rdr[1].ToString());
+                    HSItem temp = new HSItem(rdr[0].ToString(), points);
                     highscore.Add(temp);
 
                 }
