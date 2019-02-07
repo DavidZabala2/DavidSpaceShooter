@@ -244,7 +244,7 @@ namespace DavidSpaceShooter
 
             if (highScore.EnterUpdate(gameTime, player.Points))
             {
-                highScore.SaveToFile("highscore.txt"); 
+                /* highScore.SaveToFile("highscore.txt"); */
                 highScore.SaveToDB();
                 Reset(window, content);
                 return State.HighScore;

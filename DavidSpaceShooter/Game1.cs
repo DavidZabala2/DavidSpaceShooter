@@ -52,8 +52,8 @@ namespace DavidSpaceShooter
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             myFont = Content.Load<SpriteFont>("myFont");
-            highscore = new HighScore(10, myFont);
-            highscore.LoadFromFile("highscore.txt"); 
+            highscore = new HighScore(5, myFont);
+            /* highscore.LoadFromFile("highscore.txt"); */
             highscore.LoadFromDB();
             GameElements.LoadContent(Content, Window);
             
